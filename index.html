@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departamentos, Municipios y Distritos</title>
+</head>
+<body>
+  <h1>Departamentos, Municipios y Distritos</h1>
+  <div id="data-container"></div>
+
+  <script>
+    // URL de la API
+    const apiUrl = "https://api.npoint.io/253f0ee259ef1620a547/departamentos";
+
+    // Función para obtener y mostrar los datos
+    async function fetchAndDisplayData() {
+      try {
+        // Hacer la solicitud a la API
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Error al obtener los datos");
+        
+        const departamentos = await response.json();
+
+        // Seleccionar el contenedor donde se mostrarán los datos
+        const container = document.getElementById("data-container");
+
+        // Recorrer los departamentos
+        departamentos.forEach(departamento => {
+          // Crear un elemento para el departamento
+          const deptDiv = document.createElement("div");
+          deptDiv.style.marginBottom = "20px";
+
+          // Título del departamento
+          const deptTitle = document.createElement("h2");
+          deptTitle.textContent = departamento.nombre;
+          deptDiv.appendChild(deptTitle);
+
+          // Crear una lista para los municipios
+          const municipioList = document.createElement("ul");
+
+          departamento.municipios.forEach(municipio => {
+            // Crear un elemento para el municipio
+            const municipioItem = document.createElement("li");
+            municipioItem.textContent = municipio.nombre;
+
+            // Crear una lista para los distritos
+            const distritoList = document.createElement("ul");
+            municipio.distritos.forEach(distrito => {
+              const distritoItem = document.createElement("li");
+              distritoItem.textContent = distrito.nombre;
+              distritoList.appendChild(distritoItem);
+            });
+
+            // Agregar los distritos al municipio
+            municipioItem.appendChild(distritoList);
+            municipioList.appendChild(municipioItem);
+          });
+
+          // Agregar la lista de municipios al departamento
+          deptDiv.appendChild(municipioList);
+          container.appendChild(deptDiv);
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("data-container").textContent = error;
+      }
+    }
+
+    // Llamar a la función al cargar la página
+    fetchAndDisplayData();
+  </script>
+</body>
+</html>
