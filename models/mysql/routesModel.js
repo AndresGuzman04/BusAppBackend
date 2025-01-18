@@ -28,7 +28,6 @@ export class RoutesModel {
   }
 
   static async getRouteStopsByName (name) {
-    const nameRoute = name
     const [routeStops] = await connect.query(`SELECT 
     r.route_ID,
     r.name_Route,
@@ -48,7 +47,7 @@ export class RoutesModel {
         s.city_ID = c.city_ID
     WHERE 
         r.name_Route = ?;`,
-    [nameRoute])
+    [name])
 
     return routeStops.map(routeStop => ({
       ...routeStop

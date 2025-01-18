@@ -40,8 +40,8 @@ CREATE TABLE routes (
     trip_number INT NOT NULL,
     arrival_Time TIME NOT NULL,
     departure_city INT NOT NULL,
+    destination_city INT NOT NULL, -- Usa "destination_city" en lugar de "destination_City" para consistencia
     FOREIGN KEY (departure_city) REFERENCES citys(city_ID),
-    destination_City INT NOT NULL,
     FOREIGN KEY (destination_city) REFERENCES citys(city_ID)
 );
 
