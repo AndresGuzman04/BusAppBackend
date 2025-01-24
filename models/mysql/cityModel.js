@@ -1,6 +1,8 @@
+import connection from '../../utils/connection.js'
+
 export class CityModel {
-  static async getAllCitys (connect) {
-    const [citys] = await connect.query('SELECT * FROM city')
+  static async getAllCitys () {
+    const [citys] = await connection.query('SELECT * FROM city')
     return citys.map(city => ({
       ...city
     }))

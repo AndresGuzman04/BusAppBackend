@@ -10,4 +10,6 @@ const DEFAULT_CONFIG = {
 
 const connectionString = process.env.DATABASE_URL || DEFAULT_CONFIG
 
-export const connection = await mysql.createConnection(connectionString)
+const connection = await mysql.createConnection(connectionString)
+
+export default connection
