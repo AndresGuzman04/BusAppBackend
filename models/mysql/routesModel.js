@@ -9,7 +9,28 @@ export class RoutesModel {
   }
 
   static async getRouteById (id) {
-    const route = await connection.query('SELECT * FROM routes WHERE id = ?', [id])
+    const route = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
     return route[0]
+  }
+
+  static async createRoute ({ input }) {
+    const {
+      nameRoute,
+      tripNumber,
+      arrivalTime,
+      departureCity,
+      destinationCity
+    } = input
+
+    try {
+      await connection.query(
+        `INSERT INTO routes (name_Route, trip_number, arrival_Time, departure_City, destination_City)
+        VALUES (?)`, [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity]
+      )
+    } catch (error) {
+      throw new Error('Error creating route')
+    }
+
+    return { message: 'Movie created successfully!' }
   }
 }
