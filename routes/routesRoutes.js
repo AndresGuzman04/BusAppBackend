@@ -8,5 +8,7 @@ export const createRoutesRouter = ({ routesModel }) => {
 
   routesRouter.get('/', routesController.getAll)
 
+  routesRouter.get('/:id', routesController.getById)
+
   return routesRouter
 }

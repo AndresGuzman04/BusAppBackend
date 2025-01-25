@@ -7,4 +7,10 @@ export class RoutesController {
     const routes = await this.routesModel.getAllRoutes()
     res.json(routes)
   }
+
+  getById = async (req, res) => {
+    const id = req.params.id
+    const route = await this.routesModel.getRouteById(id)
+    res.json(route)
+  }
 }
