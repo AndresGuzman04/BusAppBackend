@@ -5,6 +5,13 @@ const userSchema = z.object({
     required_error: 'Name is required'
   }).min(5, 'Name must be at least 3 characters long'),
   email: z.string().email('Invalid email'),
+  rol: z.array(
+    z.enum(['admin', 'user']),
+    {
+      required_error: 'rol is required.',
+      invalid_type_error: 'Rol must be an array of enum Roles'
+    }
+  ),
   password: z.string().min(8, 'Password must be at least 8 characters long')
 })
 
