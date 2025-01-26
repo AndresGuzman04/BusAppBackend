@@ -10,5 +10,9 @@ export const createRoutesRouter = ({ routesModel }) => {
 
   routesRouter.get('/:id', routesController.getById)
 
+  routesRouter.delete('/:id', routesController.delete)
+
+  routesRouter.patch('/:id', routesController.update)
+
   return routesRouter
 }

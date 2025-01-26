@@ -9,7 +9,7 @@ export class RoutesModel {
   }
 
   static async getRouteById (id) {
-    const route = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
+    const [route] = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
     return route[0]
   }
 
@@ -32,5 +32,40 @@ export class RoutesModel {
     }
 
     return { message: 'Movie created successfully!' }
+  }
+
+  static async deleteRoute ({ id }) {
+    try {
+      const idRoute = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
+      if (idRoute[0].length > 0) {
+        await connection.query('DELETE FROM routes WHERE id = ?', [id])
+        return { message: 'Route deleted successfully!' }
+      }
+      return { message: 'Route not Exist' }
+    } catch (error) {
+      return false
+    }
+  }
+
+  static async updateRoute ({ id, input }) {
+    const {
+      nameRoute,
+      tripNumber,
+      arrivalTime,
+      departureCity,
+      destinationCity
+    } = input
+
+    try {
+      await connection.query(
+        `UPDATE routes SET 
+        (name_Route = ?, trip_number = ?, arrival_Time = ?, departure_City = ?, destination_City = ?
+        WHERE route_ID = ?)`,
+        [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity, id]
+      )
+      return { message: 'Movie and genres updated successfully!' }
+    } catch (error) {
+      return { status: 404, message: 'Error updating route' }
+    }
   }
 }
