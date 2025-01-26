@@ -6,7 +6,7 @@ const routesSchema = z.object({
     invalid_type_error: 'Name must be a string'
   }),
   trip_number: z.number().int().min(1).max(25),
-  arrival_Time: z.date(),
+  arrival_Time: z.time(),
   departure_city: z.number().int(),
   destination_city: z.number().int()
 })
