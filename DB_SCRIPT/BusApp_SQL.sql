@@ -7,10 +7,11 @@ USE BusApp;
 -- Crear tabla de usuarios
 CREATE TABLE users (
     user_ID BINARY(16),
-    name VARCHAR(100) NOT NULL,
+    name_User VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    rol VARCHAR(20) NOT NULL,
     pass VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) NOT NULL,
+    state_User VARCHAR(10) NOT NULL,
     date_Register TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

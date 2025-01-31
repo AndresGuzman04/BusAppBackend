@@ -25,13 +25,13 @@ export class RoutesModel {
     try {
       await connection.query(
         `INSERT INTO routes (name_Route, trip_number, arrival_Time, departure_City, destination_City)
-        VALUES (?)`, [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity]
+        VALUES (?, ?, ?, ?, ?)`, [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity]
       )
     } catch (error) {
-      throw new Error('Error creating route')
+      return { message: 'Error creating route', error }
     }
 
-    return { message: 'Movie created successfully!' }
+    return { message: 'User created successfully!' }
   }
 
   static async deleteRoute ({ id }) {
@@ -63,7 +63,7 @@ export class RoutesModel {
         WHERE route_ID = ?)`,
         [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity, id]
       )
-      return { message: 'Movie and genres updated successfully!' }
+      return { message: 'Route updated successfully!' }
     } catch (error) {
       return { status: 404, message: 'Error updating route' }
     }

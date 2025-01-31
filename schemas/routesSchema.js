@@ -1,14 +1,14 @@
 import z from 'zod'
 
 const routesSchema = z.object({
-  name_Route: z.string({
+  nameRoute: z.string({
     required_error: 'Name is required',
     invalid_type_error: 'Name must be a string'
   }),
-  trip_number: z.number().int().min(1).max(25),
-  arrival_Time: z.time(),
-  departure_city: z.number().int(),
-  destination_city: z.number().int()
+  tripNumber: z.number().int().min(1).max(25),
+  arrivalTime: z.string().time(),
+  departureCity: z.number().int(),
+  destinationCity: z.number().int()
 })
 
 export function validateRoutes (input) {
