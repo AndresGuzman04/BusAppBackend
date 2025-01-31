@@ -1,8 +1,9 @@
 import express, { json } from 'express'
 
 import { createRoutesRouter } from './routes/routesRoutes.js'
+import { createUserRouter } from './routes/userRoutes.js'
 
-export const createApp = ({ routesModel }) => {
+export const createApp = ({ routesModel, usersModel }) => {
   const app = express()
 
   app.use(json())
@@ -10,6 +11,7 @@ export const createApp = ({ routesModel }) => {
   app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 
   app.use('/routes', createRoutesRouter({ routesModel })) // ruta para Bus-Routes
+  app.use('/users', createUserRouter({ usersModel })) // ruta para Users
 
   const PORT = process.env.PORT ?? 1234
 

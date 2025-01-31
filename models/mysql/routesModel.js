@@ -31,7 +31,7 @@ export class RoutesModel {
       return { message: 'Error creating route', error }
     }
 
-    return { message: 'User created successfully!' }
+    return { message: 'Route created successfully!' }
   }
 
   static async deleteRoute ({ id }) {

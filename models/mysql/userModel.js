@@ -23,7 +23,7 @@ export class UserModel {
     try {
       await connection.query('INSERT INTO users SET ?', { input })
     } catch (error) {
-      throw new Error('Error creating user')
+      return { message: 'User created Error', error }
     }
     return { message: 'User created successfully!' }
   }
@@ -60,6 +60,18 @@ export class UserModel {
       return { message: 'Movie updated successfully!' }
     } catch (error) {
       throw new Error('Error updating movie: ' + error.message)
+    }
+  }
+
+  static async deleteUser ({ id }) {
+    try {
+      const [result] = await connection.execute('DELETE FROM users WHERE id = ?', [id])
+      if (result.affectedRows === 0) {
+        throw new Error('Movie not found')
+      }
+      return { message: 'Movie deleted successfully!' }
+    } catch (error) {
+      throw new Error('Error deleting movie: ' + error.message)
     }
   }
 }

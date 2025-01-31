@@ -1,4 +1,4 @@
-INSERT INTO departaments (id, name) VALUES
+INSERT INTO departaments (departament_ID, name) VALUES
 (1, 'Ahuachapán'),
 (2, 'Cabañas'),
 (3, 'Chalatenango'),
@@ -15,7 +15,7 @@ INSERT INTO departaments (id, name) VALUES
 (14, 'Usulután');
 
 --Ahuachapán
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (1, 'Ahuachapán Norte', 1),
 (2, 'Ahuachapán Centro', 1),
 (3, 'Ahuachapán Sur', 1);
@@ -35,7 +35,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('San Pedro Puxtla', 3);
 
 --Cabañas
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (4, 'Cabañas Este', 2),
 (5, 'Cabañas Oeste', 2);
 
@@ -51,7 +51,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Cinquera', 5);
 
 --Chalatenango
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (6, 'Chalatenango Norte', 3),
 (7, 'Chalatenango Centro', 3),
 (8, 'Chalatenango Sur', 3);
@@ -92,7 +92,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('San Luis del Carmen', 8);
 
 --Cuscatlán
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (9, 'Cuscatlán Norte', 4),
 (10, 'Cuscatlán Sur', 4);
 
@@ -115,7 +115,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Tenancingo', 10);
 
 --La Libertad
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (11, 'La Libertad Norte', 5),
 (12, 'La Libertad Centro', 5),
 (13, 'La Libertad Oeste', 5),
@@ -148,7 +148,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Santa Tecla', 16);
 
 --La Paz
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (17, 'La Paz Oeste', 6),
 (18, 'La Paz Centro', 6),
 (19, 'La Paz Este', 6);
@@ -178,7 +178,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Zacatecoluca', 19);
 
 --La Unión
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (20, 'La Unión Norte', 7),
 (21, 'La Unión Sur', 7);
 
@@ -203,7 +203,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Yucuaiquín', 21);
 
 --Morazan
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (22, 'Morazán Norte', 8),
 (23, 'Morazán Sur', 8);
 
@@ -236,7 +236,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Yoloaiquín', 23);
 
 --San Miguel
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (24, 'San Miguel Norte', 9),
 (25, 'San Miguel Centro', 9),
 (26, 'San Miguel Oeste', 9);
@@ -264,7 +264,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('El Tránsito', 26);
 
 --San Salvador
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (27, 'San Salvador Norte', 10),
 (28, 'San Salvador Oeste', 10),
 (29, 'San Salvador Este', 10),
@@ -293,7 +293,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Santiago Texacuangos', 31);
 
 --San Vicente
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (32, 'San Vicente Norte', 11),
 (33, 'San Vicente Sur', 11);
 
@@ -313,7 +313,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('San Cayetano Istepeque', 33);
 
 --Santa Ana
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (34, 'Santa Ana Norte', 12),
 (35, 'Santa Ana Centro', 12),
 (36, 'Santa Ana Este', 12),
@@ -335,7 +335,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Santiago de La Frontera', 37);
 
 --Sonsonate
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (38, 'Sonsonate Norte', 13),
 (39, 'Sonsonate Centro', 13),
 (40, 'Sonsonate Este', 13),
@@ -360,7 +360,7 @@ INSERT INTO citys (name, municipality_id) VALUES
 ('Acajutla', 41);
 
 --Usulután
-INSERT INTO municipalitys (id, name, departament_id) VALUES
+INSERT INTO municipalitys (municipality_ID, name, departament_id) VALUES
 (42, 'Usulután Norte', 14),
 (43, 'Usulután Este', 14),
 (44, 'Usulután Oeste', 14);
