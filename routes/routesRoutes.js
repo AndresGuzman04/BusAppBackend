@@ -6,7 +6,7 @@ export const createRoutesRouter = ({ routesModel }) => {
 
   const routesController = new RoutesController({ routesModel })
 
-  routesRouter.get('/', routesController.getAll)
+  routesRouter.get('/get-routes', routesController.getAll)
 
   routesRouter.get('/:id', routesController.getById)
 

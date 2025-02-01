@@ -2,26 +2,37 @@ import connection from '../../utils/connection.js'
 
 export class UserModel {
   static async getAllUsers () {
-    const [user] = await connection.query('SELECT * FROM users')
-    return user.map(user => ({
-      ...user
-    }))
+    try {
+      const [users] = await connection.query(`SELECT 
+        BIN_TO_UUID(user_ID) as user_ID,
+        name_User, email, pass, rol, state_User, date_Register
+         FROM users`)
+      return users.map(user => ({ ...user }))
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error)
+      throw error // o retornar una respuesta adecuada
+    }
   }
 
   static async getByIdUser ({ id }) {
-    const [user] = await connection.query('SELECT * FROM user WHERE user_ID = ?', [id])
+    const [user] = await connection.query('SELECT * FROM user WHERE BIN_TO_UUID(user_ID) = ?', [id])
     return user[0]
   }
 
   static async createUser ({ input }) {
+    const {
+      name,
+      email,
+      password,
+      rol,
+      state
+    } = input
     // Generate new id
     const [[{ uuid }]] = await connection.query('SELECT UUID() AS uuid')
 
-    // Add id in the input
-    input.user_ID = uuid
-
     try {
-      await connection.query('INSERT INTO users SET ?', { input })
+      await connection.query(`INSERT INTO users (user_ID, name_User, email, pass, rol, state_User)
+        Values (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?)`, [name, email, password, rol, state])
     } catch (error) {
       return { message: 'User created Error', error }
     }
