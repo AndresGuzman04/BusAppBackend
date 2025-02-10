@@ -46,37 +46,37 @@ export class UserModel {
   }
 
   static async updateUser ({ id, input }) {
+    const fieldMap = {
+      name: 'name_User',
+      password: 'pass',
+      state: 'state_User'
+    }
+
+    // Obtener las claves de `input` y reemplazarlas si existen en `fieldMap`
+    const fields = Object.keys(input)
+    const dbFields = fields.map(field => `${fieldMap[field] || field} = ?`).join(', ')
+
+    // Crear la consulta SQL dinámica
+    const updateUserQuery = `
+      UPDATE users
+      SET ${dbFields}
+      WHERE BIN_TO_UUID(user_ID) = ?
+    `
+
+    // Obtener los valores en el mismo orden que las claves
+    const values = [...Object.values(input), id]
+
     try {
-      // Obtener solo las claves enviadas en input (valores a actualizar)
-      const fields = Object.keys(input)
+      const [validateID] = await connection.query('SELECT * FROM users WHERE BIN_TO_UUID(user_ID) = ?', [id])
 
-      if (fields.length === 0) {
-        throw new Error('No data provided to update')
+      if (!validateID[0]) {
+        return { message: 'User not found' }
       }
 
-      // Crear la parte dinámica de SET: "title = ?, rate = ?"
-      const setClause = fields.map(field => `${field} = ?`).join(', ')
-
-      // Crear la consulta SQL dinámica
-      const updateMovieQuery = `
-        UPDATE users
-        SET ${setClause}
-        WHERE id = UUID_TO_BIN(?)
-      `
-
-      // Obtener los valores en el mismo orden que las claves
-      const values = [...Object.values(input), id]
-
-      // Ejecutar la consulta
-      const [result] = await connection.execute(updateMovieQuery, values)
-
-      if (result.affectedRows === 0) {
-        throw new Error('Movie not found or no changes made')
-      }
-
-      return { message: 'Movie updated successfully!' }
+      await connection.execute(updateUserQuery, values)
+      return { message: 'User updated successfully' }
     } catch (error) {
-      throw new Error('Error updating movie: ' + error.message)
+      return { message: 'Error update user' }
     }
   }
 

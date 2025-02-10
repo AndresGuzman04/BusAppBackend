@@ -1,4 +1,4 @@
-import { validateUser } from '../schemas/userSchema.js'
+import { validatePartialUser, validateUser } from '../schemas/userSchema.js'
 export class UserController {
   constructor ({ usersModel }) {
     this.usersModel = usersModel
@@ -25,5 +25,16 @@ export class UserController {
     if (user) return res.json(user)
 
     res.status(404).json({ message: 'User not exit' })
+  }
+
+  update = async (req, res) => {
+    const id = req.params.id
+    const result = validatePartialUser(req.body)
+
+    if (!result.success) {
+      return res.status(400).json({ error: JSON.parse(result.error.message) })
+    }
+    const user = await this.usersModel.updateUser({ id, input: result.data })
+    return res.json(user)
   }
 }
