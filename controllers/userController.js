@@ -37,4 +37,10 @@ export class UserController {
     const user = await this.usersModel.updateUser({ id, input: result.data })
     return res.json(user)
   }
+
+  delete = async (req, res) => {
+    const id = req.params.id
+    const userDelete = await this.usersModel.deleteUser({ id })
+    return res.json(userDelete)
+  }
 }

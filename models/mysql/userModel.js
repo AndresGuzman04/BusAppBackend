@@ -82,13 +82,15 @@ export class UserModel {
 
   static async deleteUser ({ id }) {
     try {
-      const [result] = await connection.execute('DELETE FROM users WHERE id = ?', [id])
-      if (result.affectedRows === 0) {
-        throw new Error('Movie not found')
+      const [validateID] = await connection.query('SELECT * FROM users WHERE BIN_TO_UUID(user_ID) = ?', [id])
+
+      if (!validateID[0]) {
+        return { message: 'User not found' }
       }
-      return { message: 'Movie deleted successfully!' }
+      await connection.execute('DELETE FROM users WHERE BIN_TO_UUID(user_ID) = ?', [id])
+      return { message: 'User deleted successfully!' }
     } catch (error) {
-      throw new Error('Error deleting movie: ' + error.message)
+      throw new Error('Error deleting user')
     }
   }
 }
