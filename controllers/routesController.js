@@ -14,7 +14,7 @@ export class RoutesController {
     const id = req.params.id
     const route = await this.routesModel.getRouteById(id)
     if (route) return res.json(route)
-    res.status(404).json({ message: 'Route not found' })
+    res.status(404).json({ message: 'Route not exit' })
   }
 
   create = async (req, res) => {
@@ -29,10 +29,10 @@ export class RoutesController {
   delete = async (req, res) => {
     const { id } = req.params
 
-    const result = await this.movieModel.delete({ id })
+    const result = await this.routesModel.deleteRoute({ id })
 
     if (result === false) {
-      return res.status(404).json({ message: 'Movie not found' })
+      return res.status(404).json({ message: 'Route not found' })
     }
 
     return res.json(result)
@@ -46,7 +46,7 @@ export class RoutesController {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
 
-    const updateRoute = await this.movieModel.update({ id, input: result.data })
+    const updateRoute = await this.routesModel.updateRoute({ id, input: result.data })
 
     return res.json(updateRoute)
   }

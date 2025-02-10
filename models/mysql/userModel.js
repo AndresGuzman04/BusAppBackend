@@ -1,24 +1,6 @@
 import connection from '../../utils/connection.js'
 
 export class UserModel {
-  static async getAllUsers () {
-    try {
-      const [users] = await connection.query(`SELECT 
-        BIN_TO_UUID(user_ID) as user_ID,
-        name_User, email, pass, rol, state_User, date_Register
-         FROM users`)
-      return users.map(user => ({ ...user }))
-    } catch (error) {
-      console.error('Error al obtener usuarios:', error)
-      throw error // o retornar una respuesta adecuada
-    }
-  }
-
-  static async getByIdUser ({ id }) {
-    const [user] = await connection.query('SELECT * FROM user WHERE BIN_TO_UUID(user_ID) = ?', [id])
-    return user[0]
-  }
-
   static async createUser ({ input }) {
     const {
       name,
@@ -37,6 +19,30 @@ export class UserModel {
       return { message: 'User created Error', error }
     }
     return { message: 'User created successfully!' }
+  }
+
+  static async getAllUsers () {
+    try {
+      const [users] = await connection.query(`SELECT 
+        BIN_TO_UUID(user_ID) as user_ID,
+        name_User, email, pass, rol, state_User, date_Register
+         FROM users`)
+      return users.map(user => ({ ...user }))
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error)
+      throw error // o retornar una respuesta adecuada
+    }
+  }
+
+  static async getUserByID ({ id }) {
+    try {
+      const [user] = await connection.query(`SELECT  
+        BIN_TO_UUID(user_ID) as user_ID, name_User, email, pass, rol, state_User, date_Register 
+        FROM users WHERE BIN_TO_UUID(user_ID) = ?`, [id])
+      return user[0]
+    } catch (error) {
+      return { message: 'Error al obtener usuario' }
+    }
   }
 
   static async updateUser ({ id, input }) {
