@@ -1,4 +1,5 @@
 import express, { json } from 'express'
+import { corsMiddleware } from './middlewares/cors.js'
 
 import { createRoutesRouter } from './routes/routesRoutes.js'
 import { createUserRouter } from './routes/userRoutes.js'
@@ -7,6 +8,8 @@ export const createApp = ({ routesModel, usersModel }) => {
   const app = express()
 
   app.use(json())
+
+  app.use(corsMiddleware())
 
   app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 
