@@ -1,4 +1,5 @@
 import connection from '../../utils/connection.js'
+import bcrypt from 'bcrypt'
 
 export class UserModel {
   static async createUser ({ input }) {
@@ -11,14 +12,35 @@ export class UserModel {
     } = input
     // Generate new id
     const [[{ uuid }]] = await connection.query('SELECT UUID() AS uuid')
+    // Hash password
+
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
       await connection.query(`INSERT INTO users (user_ID, name_User, email, pass, rol, state_User)
-        Values (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?)`, [name, email, password, rol, state])
+        Values (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?)`, [name, email, hashedPassword, rol, state])
     } catch (error) {
       return { message: 'User created Error', error }
     }
     return { message: 'User created successfully!' }
+  }
+
+  static async login ({ input }) {
+    const { email, password } = input
+
+    try {
+      const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email
+      ])
+      const user = rows[0]
+      if (!user) return { message: 'Email not found' }
+
+      const isValidPassword = await bcrypt.compare(password, user.pass)
+      if (!isValidPassword) return { message: 'Invalid password' }
+
+      return { message: 'User logged in successfully!' }
+    } catch (error) {
+      return { message: 'Error login ', error }
+    }
   }
 
   static async getAllUsers () {

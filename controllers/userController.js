@@ -14,6 +14,17 @@ export class UserController {
     res.status(201).json(newUser)
   }
 
+  login = async (req, res) => {
+    const result = validatePartialUser(req.body)
+    if (!result.success) {
+      return res.status(400).json({ error: JSON.parse(result.error.message) })
+    }
+
+    const response = await this.usersModel.login({ input: result.data })
+
+    res.status(200).json(response)
+  }
+
   getAll = async (req, res) => {
     const users = await this.usersModel.getAllUsers()
     res.json(users)
