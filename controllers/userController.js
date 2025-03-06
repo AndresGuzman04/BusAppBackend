@@ -1,4 +1,6 @@
 import { validatePartialUser, validateUser } from '../schemas/userSchema.js'
+import jwt from 'jsonwebtoken'
+
 export class UserController {
   constructor ({ usersModel }) {
     this.usersModel = usersModel
@@ -15,14 +17,28 @@ export class UserController {
   }
 
   login = async (req, res) => {
-    const result = validatePartialUser(req.body)
-    if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) })
+    const { email, password } = req.body
+    try {
+      const user = await this.usersModel.login({ email, password })
+      const token = jwt.sign({ user_ID: user.user_ID, email: user.email }, process.env.SECRET_KEY, {
+        expiresIn: '1h'
+      })
+      res.cookie('access_token', token, {
+        httpOnly: true, // la cookie solo se puede acceder en el servidor
+        secure: false, // solo se puede acceder en https
+        sameSite: 'strict', // solo se puede acceder en el mismo dominio
+        maxAge: 3600000 // la cookie expira en 1 hora
+      })
+        .send({ user, token })
+    } catch (error) {
+      res.status(401).send(error.message)
     }
+  }
 
-    const response = await this.usersModel.login({ input: result.data })
-
-    res.status(200).json(response)
+  logout = async (req, res) => {
+    res
+      .clearCookie('access_token')
+      .json({ message: 'Logout successful' })
   }
 
   getAll = async (req, res) => {

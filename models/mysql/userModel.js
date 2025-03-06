@@ -13,7 +13,6 @@ export class UserModel {
     // Generate new id
     const [[{ uuid }]] = await connection.query('SELECT UUID() AS uuid')
     // Hash password
-
     const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
@@ -25,11 +24,9 @@ export class UserModel {
     return { message: 'User created successfully!' }
   }
 
-  static async login ({ input }) {
-    const { email, password } = input
-
+  static async login ({ email, password }) {
     try {
-      const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email
+      const [rows] = await connection.query('SELECT BIN_TO_UUID(user_ID) as user_ID, name_User, email, pass FROM users WHERE email = ?', [email
       ])
       const user = rows[0]
       if (!user) return { message: 'Email not found' }
@@ -37,9 +34,9 @@ export class UserModel {
       const isValidPassword = await bcrypt.compare(password, user.pass)
       if (!isValidPassword) return { message: 'Invalid password' }
 
-      return { message: 'User logged in successfully!' }
+      return user
     } catch (error) {
-      return { message: 'Error login ', error }
+      return { message: 'Error logging in, please try again later' }
     }
   }
 
