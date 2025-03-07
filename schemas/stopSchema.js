@@ -4,7 +4,8 @@ const stopSchema = z.object({
   numStop: z.number().int().min(1).max(20),
   cityID: z.number().int(),
   duration: z.string().time(),
-  routeID: z.number().int()
+  routeID: z.number().int(),
+  description: z.string()
 })
 
 export function validateStop (input) {

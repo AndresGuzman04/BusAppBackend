@@ -40,9 +40,9 @@ CREATE TABLE routes (
     route_ID INT AUTO_INCREMENT PRIMARY KEY,
     name_Route VARCHAR(100) NOT NULL,
     trip_number INT NOT NULL,
-    arrival_Time TIME NOT NULL,
+    departure_Time TIME NOT NULL,
     departure_city INT NOT NULL,
-    destination_city INT NOT NULL, -- Usa "destination_city" en lugar de "destination_City" para consistencia
+    destination_city INT NOT NULL, 
     FOREIGN KEY (departure_city) REFERENCES citys(city_ID),
     FOREIGN KEY (destination_city) REFERENCES citys(city_ID)
 );

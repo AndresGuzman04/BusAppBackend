@@ -41,11 +41,10 @@ export class RoutesModel {
   static async deleteRoute ({ id }) {
     try {
       const idRoute = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
-      if (idRoute[0].length > 0) {
-        await connection.query('DELETE FROM routes WHERE route_ID = ?', [id])
-        return { message: 'Route deleted successfully!' }
-      }
-      return { message: 'Route not Exist' }
+      if (!idRoute[0]) return { message: 'Route not Exist' }
+
+      await connection.query('DELETE FROM routes WHERE route_ID = ?', [id])
+      return { message: 'Route deleted successfully!' }
     } catch (error) {
       return false
     }
@@ -61,20 +60,19 @@ export class RoutesModel {
     } = input
 
     try {
-      const idRoute = await connection.query('SELECT * FROM routes WHERE route_ID = ?', [id])
+      const [idRoute] = await connection.query('SELECT * FROM routes WHERE route_ID = ?', id)
 
-      if (idRoute[0].length > 0) {
-        await connection.query(
+      if (!idRoute[0]) return { message: 'Route not Exist' }
+
+      await connection.query(
           `UPDATE routes SET 
           name_Route = ?, trip_number = ?, arrival_Time = ?, departure_City = ?, destination_City = ?
           WHERE route_ID = ?`,
           [nameRoute, tripNumber, arrivalTime, departureCity, destinationCity, id]
-        )
-        return { message: 'Route updated successfully!' }
-      }
-      return { message: 'Route not Exist' }
+      )
+      return { message: 'Route updated successfully!' }
     } catch (error) {
-      return { status: 404, message: 'Error updating route', error }
+      return { message: 'Error updating route' }
     }
   }
 }

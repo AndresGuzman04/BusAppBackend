@@ -13,7 +13,6 @@ export const createUserRouter = ({ usersModel }) => {
   userRouter.get('/get-users', jwtMiddleware, userController.getAll)
   userRouter.get('/:id', jwtMiddleware, userController.getByID)
   userRouter.patch('/:id', jwtMiddleware, userController.update)
-  userRouter.delete('/:id', jwtMiddleware, userController.delete)
   userRouter.post('/logout', jwtMiddleware, userController.logout)
 
   return userRouter

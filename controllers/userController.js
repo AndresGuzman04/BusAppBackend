@@ -7,13 +7,17 @@ export class UserController {
   }
 
   create = async (req, res) => {
-    const result = validateUser(req.body)
-    if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) })
-    }
-    const newUser = await this.usersModel.createUser({ input: result.data })
+    try {
+      const result = validateUser(req.body)
+      if (!result.success) {
+        return res.status(400).json({ error: JSON.parse(result.error.message) })
+      }
+      const newUser = await this.usersModel.createUser({ input: result.data })
 
-    res.status(201).json(newUser)
+      res.status(201).json(newUser)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
   }
 
   login = async (req, res) => {
@@ -42,32 +46,38 @@ export class UserController {
   }
 
   getAll = async (req, res) => {
-    const users = await this.usersModel.getAllUsers()
-    res.json(users)
+    try {
+      const users = await this.usersModel.getAllUsers()
+      res.json(users)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
   }
 
   getByID = async (req, res) => {
-    const id = req.params.id
-    const user = await this.usersModel.getUserByID({ id })
-    if (user) return res.json(user)
+    try {
+      const id = req.params.id
+      const user = await this.usersModel.getUserByID({ id })
+      if (user) return res.json(user)
 
-    res.status(404).json({ message: 'User not exit' })
+      res.status(404).json({ message: 'User not exit' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
   }
 
   update = async (req, res) => {
-    const id = req.params.id
-    const result = validatePartialUser(req.body)
+    try {
+      const id = req.params.id
+      const result = validatePartialUser(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) })
+      if (!result.success) {
+        return res.status(400).json({ error: JSON.parse(result.error.message) })
+      }
+      const user = await this.usersModel.updateUser({ id, input: result.data })
+      return res.json(user)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' })
     }
-    const user = await this.usersModel.updateUser({ id, input: result.data })
-    return res.json(user)
-  }
-
-  delete = async (req, res) => {
-    const id = req.params.id
-    const userDelete = await this.usersModel.deleteUser({ id })
-    return res.json(userDelete)
   }
 }

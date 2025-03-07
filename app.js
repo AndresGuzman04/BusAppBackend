@@ -5,8 +5,12 @@ import cookieParser from 'cookie-parser'
 
 import { createRoutesRouter } from './routes/routesRoutes.js'
 import { createUserRouter } from './routes/userRoutes.js'
+import { createCitysRouter } from './routes/citysRoutes.js'
+import { createStopRouter } from './routes/stopRoutes.js'
 
-export const createApp = ({ routesModel, usersModel }) => {
+import { jwtMiddleware } from './middlewares/jwtMiddleware.js'
+
+export const createApp = ({ routesModel, usersModel, cityModel, stopModel }) => {
   const app = express()
 
   app.use(json())
@@ -17,7 +21,9 @@ export const createApp = ({ routesModel, usersModel }) => {
 
   app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 
-  app.use('/routes', createRoutesRouter({ routesModel })) // ruta para Bus-Routes
+  app.use('/stops', jwtMiddleware, createStopRouter({ stopModel }))
+  app.use('/location', jwtMiddleware, createCitysRouter({ cityModel }))
+  app.use('/routes', jwtMiddleware, createRoutesRouter({ routesModel })) // ruta para Bus-Routes
   app.use('/users', createUserRouter({ usersModel })) // ruta para Users
 
   const PORT = process.env.PORT ?? 1234

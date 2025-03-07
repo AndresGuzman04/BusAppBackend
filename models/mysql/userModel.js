@@ -98,18 +98,4 @@ export class UserModel {
       return { message: 'Error update user' }
     }
   }
-
-  static async deleteUser ({ id }) {
-    try {
-      const [validateID] = await connection.query('SELECT * FROM users WHERE BIN_TO_UUID(user_ID) = ?', [id])
-
-      if (!validateID[0]) {
-        return { message: 'User not found' }
-      }
-      await connection.execute('DELETE FROM users WHERE BIN_TO_UUID(user_ID) = ?', [id])
-      return { message: 'User deleted successfully!' }
-    } catch (error) {
-      throw new Error('Error deleting user')
-    }
-  }
 }
